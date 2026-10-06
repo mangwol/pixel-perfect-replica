@@ -100,7 +100,7 @@ function Index() {
 
         {result && (
           <section className="mt-12">
-            <div className="grid gap-6 rounded-2xl border border-border bg-card p-6 md:grid-cols-2 md:p-8">
+            <div className="grid gap-6 rounded-2xl border border-border bg-card p-6 md:grid-cols-[1.5fr_1fr_auto] md:p-8">
               <div>
                 <p className={label}>Project Concept</p>
                 <h2 className="mt-3 text-2xl font-bold">{result.title}</h2>
@@ -113,6 +113,10 @@ function Index() {
                     <span key={v} className="rounded-full border border-border bg-secondary px-3 py-1 text-sm">{v}</span>
                   ))}
                 </div>
+              </div>
+              <div>
+                <p className={label}>Aspect Ratio</p>
+                <p className="mt-3 font-mono text-lg font-semibold tracking-tight">{result.aspectRatio}</p>
               </div>
             </div>
 
