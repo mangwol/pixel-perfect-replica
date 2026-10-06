@@ -118,18 +118,47 @@ function Index() {
 
             <div className="mt-6 grid gap-4">
               {result.shots.map((s) => (
-                <article key={s.number} className="rounded-2xl border border-border bg-card p-6">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-mono text-sm font-medium text-primary">
+                <article
+                  key={s.number}
+                  className="group flex flex-col gap-5 rounded-2xl border border-border bg-card p-5 transition-colors hover:border-ring/50 md:flex-row md:gap-6 md:p-6"
+                >
+                  <div className="relative w-full shrink-0 md:w-[280px]">
+                    <div className="flex aspect-video items-center justify-center rounded-xl border border-border bg-secondary/40">
+                      <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed border-border/80 px-6 py-4 text-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          className="h-6 w-6 text-muted-foreground"
+                        >
+                          <rect x="2" y="5" width="14" height="14" rx="2" />
+                          <path d="m16 10 6-3v10l-6-3" />
+                        </svg>
+                        <span className={label}>Storyboard</span>
+                      </div>
+                    </div>
+                    <span className="absolute left-3 top-3 rounded-md bg-primary px-2 py-1 font-mono text-[11px] font-semibold tracking-wider text-primary-foreground">
                       SHOT {String(s.number).padStart(2, "0")}
                     </span>
-                    <span className="font-mono text-xs text-muted-foreground">{s.time}</span>
                   </div>
-                  <dl className="mt-4 grid gap-4 sm:grid-cols-[160px_160px_1fr]">
-                    <div><dt className={label}>Shot Size</dt><dd className="mt-1 text-sm">{s.shotSize}</dd></div>
-                    <div><dt className={label}>Camera</dt><dd className="mt-1 text-sm">{s.camera}</dd></div>
-                    <div><dt className={label}>Description</dt><dd className="mt-1 text-sm text-muted-foreground">{s.description}</dd></div>
-                  </dl>
+
+                  <div className="flex min-w-0 flex-1 flex-col">
+                    <div className="flex items-center justify-between gap-3 border-b border-border pb-3">
+                      <span className="font-mono text-sm font-semibold tracking-wide text-foreground">
+                        SHOT {String(s.number).padStart(2, "0")}
+                      </span>
+                      <span className="rounded-md border border-border bg-secondary px-2.5 py-1 font-mono text-xs text-muted-foreground">
+                        {s.time}
+                      </span>
+                    </div>
+                    <dl className="mt-4 grid gap-4 sm:grid-cols-[150px_150px_1fr]">
+                      <div><dt className={label}>Shot Size</dt><dd className="mt-1.5 text-sm font-medium">{s.shotSize}</dd></div>
+                      <div><dt className={label}>Camera</dt><dd className="mt-1.5 text-sm font-medium">{s.camera}</dd></div>
+                      <div><dt className={label}>Description</dt><dd className="mt-1.5 text-sm text-muted-foreground">{s.description}</dd></div>
+                    </dl>
+                  </div>
                 </article>
               ))}
             </div>
