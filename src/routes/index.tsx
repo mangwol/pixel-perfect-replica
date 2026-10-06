@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Moon, Sun } from "lucide-react";
 import {
   DURATIONS,
   PLATFORMS,
@@ -32,6 +33,19 @@ function Index() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ShotListProject | null>(null);
 
+  const [light, setLight] = useState(false);
+  useEffect(() => {
+    setLight(localStorage.getItem("theme") === "light");
+  }, []);
+  useEffect(() => {
+    document.documentElement.classList.toggle("light", light);
+  }, [light]);
+  function toggleTheme() {
+    const next = !light;
+    setLight(next);
+    localStorage.setItem("theme", next ? "light" : "dark");
+  }
+
   async function onGenerate() {
     setLoading(true);
     setResult(null);
@@ -48,6 +62,13 @@ function Index() {
         <div className="mx-auto flex max-w-5xl items-center gap-2 px-6 py-5">
           <span className="h-2.5 w-2.5 rounded-full bg-primary" />
           <span className="text-sm font-semibold tracking-tight">AI Creative Studio</span>
+          <button
+            onClick={toggleTheme}
+            aria-label={light ? "Switch to dark mode" : "Switch to light mode"}
+            className="ml-auto flex h-9 w-9 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+          >
+            {light ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+          </button>
         </div>
       </header>
 
@@ -121,14 +142,17 @@ function Index() {
             </div>
 
             <div className="mt-6 grid gap-4">
-              {result.shots.map((s) => (
+              {result.shots.map((s) => {
+                const vertical = result.aspectRatio.includes("9:16");
+                return (
                 <article
                   key={s.number}
                   className="group flex flex-col gap-5 rounded-2xl border border-border bg-card p-5 transition-colors hover:border-ring/50 md:flex-row md:gap-6 md:p-6"
                 >
-                  <div className="relative w-full shrink-0 md:w-[280px]">
-                    <div className="flex aspect-video items-center justify-center rounded-xl border border-border bg-secondary/40">
-                      <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed border-border/80 px-6 py-4 text-center">
+                  <div className={`relative shrink-0 ${vertical ? "mx-auto w-[180px] md:mx-0 md:w-[150px]" : "w-full md:w-[280px]"}`}>
+                    {/* Storyboard frame: later render <img className="absolute inset-0 h-full w-full object-cover" /> inside */}
+                    <div className={`relative flex items-center justify-center overflow-hidden rounded-xl border border-border bg-secondary/40 ${vertical ? "aspect-[9/16]" : "aspect-video"}`}>
+                      <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed border-border/80 px-4 py-4 text-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
@@ -164,7 +188,8 @@ function Index() {
                     </dl>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           </section>
         )}
