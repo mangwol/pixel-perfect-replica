@@ -22,3 +22,7 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Live Demo
+
+https://pixel-perfect-capture-8295.lovable.app
