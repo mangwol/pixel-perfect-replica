@@ -1,12 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
-import {
-  DURATIONS,
-  PLATFORMS,
-  generateShotList,
-  type ShotListProject,
-} from "@/lib/shot-list";
+import { DURATIONS, PLATFORMS, type ShotListProject } from "@/lib/shot-list";
+import { generateShotListFn } from "@/lib/shot-list.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,6 +28,7 @@ function Index() {
   const [platform, setPlatform] = useState("Instagram Reels");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ShotListProject | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const [light, setLight] = useState(false);
   useEffect(() => {
@@ -49,8 +46,12 @@ function Index() {
   async function onGenerate() {
     setLoading(true);
     setResult(null);
+    setError(null);
     try {
-      setResult(await generateShotList({ idea, duration, platform }));
+      const res = await generateShotListFn({ data: { videoIdea: idea, duration, platform } });
+      setResult(res.project);
+    } catch {
+      setError("Shot list generation failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -117,6 +118,12 @@ function Index() {
             <span className="h-4 w-4 animate-spin rounded-full border-2 border-muted border-t-primary" />
             Building your shot plan…
           </div>
+        )}
+
+        {error && (
+          <p role="alert" className="mt-8 rounded-xl border border-destructive/50 bg-destructive/10 px-5 py-4 text-sm text-destructive">
+            {error}
+          </p>
         )}
 
         {result && (
