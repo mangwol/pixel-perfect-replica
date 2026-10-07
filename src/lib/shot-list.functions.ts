@@ -77,7 +77,7 @@ export const generateShotListFn = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => InputSchema.parse(d))
   .handler(async ({ data }): Promise<GenerateResult> => {
     const req = { idea: data.videoIdea, duration: data.duration, platform: data.platform };
-    const apiKey = process.env.LOVABLE_API_KEY;
+    const apiKey = process.env["LOVABLE_API_KEY"];
     if (!apiKey) {
       // Fallback: no key configured yet.
       await new Promise((r) => setTimeout(r, 800));
@@ -103,7 +103,7 @@ Rules:
         "X-Lovable-AIG-SDK": "fetch",
       },
       body: JSON.stringify({
-        model: process.env.SHOT_LIST_MODEL || DEFAULT_MODEL,
+        model: process.env["SHOT_LIST_MODEL"] || DEFAULT_MODEL,
         instructions,
         input: [
           {
