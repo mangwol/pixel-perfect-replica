@@ -124,8 +124,8 @@ function Index() {
             <div className="grid gap-6 rounded-2xl border border-border bg-card p-6 md:grid-cols-[1.5fr_1fr_auto] md:p-8">
               <div>
                 <p className={label}>Project Concept</p>
-                <h2 className="mt-3 text-2xl font-bold">{result.title}</h2>
-                <p className="mt-2 text-muted-foreground">{result.concept}</p>
+                <h2 className="mt-3 text-2xl font-bold">{result.projectConcept}</h2>
+                <p className="mt-2 text-muted-foreground">{result.conceptDescription}</p>
               </div>
               <div>
                 <p className={label}>Visual Direction</p>
@@ -146,7 +146,7 @@ function Index() {
                 const vertical = result.aspectRatio.includes("9:16");
                 return (
                 <article
-                  key={s.number}
+                  key={s.shotNumber}
                   className="group flex flex-col gap-5 rounded-2xl border border-border bg-card p-5 transition-colors hover:border-ring/50 md:flex-row md:gap-6 md:p-6"
                 >
                   <div className={`relative shrink-0 ${vertical ? "mx-auto w-[180px] md:mx-0 md:w-[150px]" : "w-full md:w-[280px]"}`}>
@@ -168,22 +168,22 @@ function Index() {
                       </div>
                     </div>
                     <span className="absolute left-3 top-3 rounded-md bg-primary px-2 py-1 font-mono text-[11px] font-semibold tracking-wider text-primary-foreground">
-                      SHOT {String(s.number).padStart(2, "0")}
+                      SHOT {String(s.shotNumber).padStart(2, "0")}
                     </span>
                   </div>
 
                   <div className="flex min-w-0 flex-1 flex-col">
                     <div className="flex items-center justify-between gap-3 border-b border-border pb-3">
                       <span className="font-mono text-sm font-semibold tracking-wide text-foreground">
-                        SHOT {String(s.number).padStart(2, "0")}
+                        SHOT {String(s.shotNumber).padStart(2, "0")}
                       </span>
                       <span className="rounded-md border border-border bg-secondary px-2.5 py-1 font-mono text-xs text-muted-foreground">
-                        {s.time}
+                        {s.startTime}–{s.endTime}
                       </span>
                     </div>
                     <dl className="mt-4 grid gap-4 sm:grid-cols-[150px_150px_1fr]">
                       <div><dt className={label}>Shot Size</dt><dd className="mt-1.5 text-sm font-medium">{s.shotSize}</dd></div>
-                      <div><dt className={label}>Camera</dt><dd className="mt-1.5 text-sm font-medium">{s.camera}</dd></div>
+                      <div><dt className={label}>Camera</dt><dd className="mt-1.5 text-sm font-medium">{s.cameraMovement}</dd></div>
                       <div><dt className={label}>Description</dt><dd className="mt-1.5 text-sm text-muted-foreground">{s.description}</dd></div>
                     </dl>
                   </div>
