@@ -135,14 +135,26 @@ function buildShots(duration: string): Shot[] {
   }));
 }
 
-export async function generateShotList(req: ShotListRequest): Promise<ShotListProject> {
-  await new Promise((r) => setTimeout(r, 1200));
-  // Sample response shaped exactly like the future AI API JSON.
+export function getAspectRatio(platform: string): string {
+  return VERTICAL_PLATFORMS.has(platform) ? "Vertical 9:16" : "Horizontal 16:9";
+}
+
+export function getShotCount(duration: string): number {
+  return SHOTS_BY_DURATION[duration] ?? 5;
+}
+
+// Fallback sample data (used when no AI key is configured).
+export function getSampleShotList(req: ShotListRequest): ShotListProject {
   return {
     projectConcept: "Peach Summer",
     conceptDescription: "A dreamy perfume commercial capturing the feeling of a warm summer afternoon.",
     visualDirection: ["Soft daylight", "Pastel tone", "Shallow depth of field"],
-    aspectRatio: VERTICAL_PLATFORMS.has(req.platform) ? "Vertical 9:16" : "Horizontal 16:9",
+    aspectRatio: getAspectRatio(req.platform),
     shots: buildShots(req.duration),
   };
+}
+
+export async function generateSampleShotList(req: ShotListRequest): Promise<ShotListProject> {
+  await new Promise((r) => setTimeout(r, 1200));
+  return getSampleShotList(req);
 }
